@@ -1,0 +1,1 @@
+Build process will copy the README.md file at compile time here through ANT task

@@ -1,0 +1,30 @@
+{
+	"_id": null,
+	"userName": "bsummers",
+	"creationDate": "2019-02-21T14:15:36Z",
+	"status": "ACTIVE",
+	"enabled": true,
+	"employeeId": 5000000,
+	"profile": {
+		"firstName": "Brianna",
+		"lastName": "Summers",
+		"middleName": "Harry",
+        "dateOfBirth": "1950-01-30",
+		"age": 50
+	},
+	"jobData": {
+		"department": "FINANCE",
+		"location": "NJ"
+	},
+	"emails": [{
+		"label": "Primary",
+		"address": "bsummers@company.com",
+		"verified": true,
+		"_default": true
+	}, {
+		"label": "Secondary",
+		"address": "bsummers@example.com",
+		"verified": true,
+		"_default": false
+	}]
+}

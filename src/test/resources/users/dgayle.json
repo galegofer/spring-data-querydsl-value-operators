@@ -1,0 +1,30 @@
+{
+	"_id": null,
+	"userName": "dgayle",
+	"creationDate": "2019-02-21T15:17:37Z",
+	"status": "ACTIVE",
+	"enabled": true,
+	"employeeId": 6000000,
+	"profile": {
+		"firstName": "Dale",
+		"lastName": "Gayle",
+		"middleName": "Owen",
+		"dateOfBirth": "1960-02-28",
+		"age": 41
+	},
+	"jobData": {
+		"department": "HR",
+		"location": "NY"
+	},
+	"emails": [{
+		"label": "Primary",
+		"address": "dgayle@company.com",
+		"verified": true,
+		"_default": true
+	}, {
+		"label": "Secondary",
+		"address": "dgayle@dummy.com",
+		"verified": true,
+		"_default": false
+	}]
+}

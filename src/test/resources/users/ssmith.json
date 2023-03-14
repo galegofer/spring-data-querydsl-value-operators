@@ -1,0 +1,30 @@
+{
+	"_id": null,
+	"userName": "ssmith",
+	"creationDate": "2019-04-23T17:19:39Z",
+	"status": "ACTIVE",
+	"enabled": true,
+	"employeeId": 9223372036854775801,
+	"profile": {
+		"firstName": "Stephen",
+		"lastName": "Smith",
+		"middleName": "Charles",
+		"dateOfBirth": "1980-04-29",
+		"age": 35
+	},
+	"jobData": {
+		"department": "HR",
+		"location": "NY"
+	},
+	"emails": [{
+		"label": "Primary",
+		"address": "ssmith@company.com",
+		"verified": true,
+		"_default": true
+	}, {
+		"label": "Secondary",
+		"address": "ssmith@example.com",
+		"verified": true,
+		"_default": false
+	}]
+}

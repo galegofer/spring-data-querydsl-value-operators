@@ -1,0 +1,771 @@
+<!-- Copyright (c) 2018 @gt_tech Licensed under the Apache License, Version 
+	2.0 (the "License"); you may not use this file except in compliance with 
+	the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.galegofer</groupId>
+	<artifactId>spring-data-querydsl-value-operators</artifactId>
+	<version>5.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>Spring Data QueryDSL value operators</name>
+
+	<inceptionYear>2018</inceptionYear>
+
+	<issueManagement>
+		<system>Bitbucket Repo Issue Tracker</system>
+		<url>https://github.com/galegofer/spring-data-querydsl-value-operators/issues</url>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>Maven Central repository</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:galegofer/spring-data-querydsl-value-operators.git</connection>
+		<developerConnection>scm:git@github.com:galegofer/spring-data-querydsl-value-operators.git
+        </developerConnection>
+		<url>https://github.com/galegofer/spring-data-querydsl-value-operators/</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>gt_tech</id>
+			<name>GT</name>
+			<roles>
+				<role>Product owner</role>
+				<role>Design</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>galegofer</id>
+			<name>Damian</name>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<description>
+		Based on https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/src/master/ credits to: gt_tech
+
+
+        This component provides extensions in terms of "Value operators" in search input fields on top of Querydsl and
+        it's Spring data integration. These value operators embellish the default out of the box capabilities in
+        Spring Data/Querydsl, which is by far statically compiled, by allowing service consumers to plugin different
+        value operators in search fields and thus perform rich/complex queries.
+    </description>
+	<url>https://github.com/galegofer/spring-data-querydsl-value-operators</url>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<properties>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<java.source.version>17</java.source.version>
+		<java.target.version>17</java.target.version>
+
+		<spring.boot.version>3.0.4</spring.boot.version>
+		<commons.collection.version>4.4</commons.collection.version>
+		<guava.version>31.1-jre</guava.version>
+		<querydsl.version>5.0.0</querydsl.version>
+
+		<groovy.version>2.4.15</groovy.version>
+		<spock.version>1.1-groovy-2.4</spock.version>
+		<cglib.version>3.2.12</cglib.version>
+
+		<skip.checkStyle>true</skip.checkStyle>
+		<skip.javadocs.generation>false</skip.javadocs.generation>
+		<plugin.compiler.version>3.11.0</plugin.compiler.version>
+		<plugin.gmavenplus.version>1.5</plugin.gmavenplus.version>
+		<plugin.source.version>3.0.1</plugin.source.version>
+		<plugin.javadoc.version>2.10.4</plugin.javadoc.version>
+		<plugin.checkstyle.version>2.17</plugin.checkstyle.version>
+		<plugin.surefire.version>2.19.1</plugin.surefire.version>
+		<plugin.mongodb.mysema.apt.version>1.1.3</plugin.mongodb.mysema.apt.version>
+		<plugin.failsafe.version>2.19.1</plugin.failsafe.version>
+		<plugin.jacoco.version>0.8.8</plugin.jacoco.version>
+		<jacoco.it.execution.data.file>
+			${project.build.directory}/${project.artifactId}/coverage-reports/jacoco-it.exec
+		</jacoco.it.execution.data.file>
+		<jacoco.ut.execution.data.file>
+			${project.build.directory}/${project.artifactId}/coverage-reports/jacoco-ut.exec
+		</jacoco.ut.execution.data.file>
+		<plugin.surefire.report.version>2.19.1</plugin.surefire.report.version>
+		<skip.integration.tests>false</skip.integration.tests>
+		<skip.unit.tests>false</skip.unit.tests>
+		<skip.jacoco.code.coverage>false</skip.jacoco.code.coverage>
+		<plugin.project.info.reports.version>2.9</plugin.project.info.reports.version>
+		<plugin.antrun.version>1.8</plugin.antrun.version>
+		<plugin.site.version>3.6</plugin.site.version>
+		<plugin.doxia.module.markdown.version>1.8</plugin.doxia.module.markdown.version>
+		<plugin.gpg.version>1.6</plugin.gpg.version>
+
+		<querydsl.generated.sources.target.directory>${project.build.directory}/generated-test-sources/querydsl/java</querydsl.generated.sources.target.directory>
+	</properties>
+
+	<dependencyManagement>
+
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-core</artifactId>
+			<!-- version managed by spring-boot-dependencies -->
+		</dependency>
+
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-collections</artifactId>
+			<!-- version managed by spring-boot-dependencies -->
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<!-- version managed by spring-boot-dependencies -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>${commons.collection.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.26</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- START: TEST Dependencies -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-core</artifactId>
+			<version>${spock.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+            <scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>${cglib.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- enables mocking of classes (in addition to interfaces) -->
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+			<!-- version managed by spring-boot-dependencies -->
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- enables mocking of classes without default constructor (together 
+				with CGLIB) -->
+			<groupId>org.objenesis</groupId>
+			<artifactId>objenesis</artifactId>
+			<version>2.5.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- STOP: TEST Dependencies -->
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${plugin.compiler.version}</version>
+				<configuration>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${plugin.source.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${plugin.javadoc.version}</version>
+				<configuration>
+					<skip>${skip.javadocs.generation}</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${plugin.checkstyle.version}</version>
+				<configuration>
+					<configLocation>file:///${project.basedir}/build-tools/code_quality/checkstyle.xml</configLocation>
+					<headerLocation>file:///${project.basedir}/LICENSE.txt</headerLocation>
+					<skip>${skip.checkStyle}</skip>
+					<failOnViolation>true</failOnViolation>
+				</configuration>
+				<executions>
+					<execution>
+						<id>checkstyle</id>
+						<phase>validate</phase>
+						<goals>
+							<!-- <goal>check</goal> -->
+							<goal>checkstyle</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.gmavenplus</groupId>
+				<artifactId>gmavenplus-plugin</artifactId>
+				<version>${plugin.gmavenplus.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<!-- <goal>addSources</goal> -->
+<!-- 							<goal>compile</goal> -->
+							<goal>addTestSources</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>${plugin.mongodb.mysema.apt.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.querydsl</groupId>
+						<artifactId>querydsl-apt</artifactId>
+						<version>${querydsl.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-process</goal>
+							<goal>add-test-sources</goal>
+						</goals>
+						<phase>generate-test-sources</phase>
+						<configuration>
+							<outputDirectory>${querydsl.generated.sources.target.directory}</outputDirectory>
+							<!-- Works with Entity Annotation -->
+							<!--<processor>com.querydsl.apt.morphia.MorphiaAnnotationProcessor</processor> -->
+							<!-- Works with QueryEntity annotation -->
+							<processor>com.querydsl.apt.QuerydslAnnotationProcessor</processor>
+							<!-- Works with Spring Mongo data Annotation -->
+							<!--<processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor -->
+							<!--</processor> -->
+							<options>
+								<querydsl.logInfo>true</querydsl.logInfo>
+								<querydsl.listAccessors>false</querydsl.listAccessors>
+								<querydsl.useGetters>true</querydsl.useGetters>
+								<querydsl.unknownAsEmbeddable>true</querydsl.unknownAsEmbeddable>
+							</options>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${plugin.surefire.version}</version>
+				<configuration>
+					<!-- Sets the VM argument line used when unit tests are run. -->
+					<argLine>${surefireArgLine}</argLine>
+					<skipTests>${skip.unit.tests}</skipTests>
+					<includes>
+						<include>**/*Test.java</include>
+						<!-- include Spock spec, oddly sure requires .java extension even for 
+							groovy scripts -->
+						<include>**/*Spec*.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*IT.java</exclude>
+					</excludes>
+					<!-- Do not set this to 0 in commit as that would block Jacoco code coverage reports due to its agent not getting forked -->
+					<!-- <forkCount>0</forkCount> -->
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-test-source</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.basedir}}/src/test/groovy</source>
+								<source>${querydsl.generated.sources.target.directory}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-checkstyle-plugin
+										</artifactId>
+										<versionRange>
+											[2.17,)
+										</versionRange>
+										<goals>
+											<goal>check</goal>
+											<goal>checkstyle</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<!-- To activate below profile, provide a command with -P integration-tests -->
+	<profiles>
+		<profile>
+			<id>integration-tests</id>
+			<build>
+				<plugins>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${plugin.failsafe.version}</version>
+						<configuration>
+							<!-- Sets the VM argument line used when integration tests are run. -->
+							<argLine>${failsafeArgLine}</argLine>
+							<skipTests>${skip.integration.tests}</skipTests>
+							<includes>
+								<include>**/*IT.java</include>
+							</includes>
+							<excludes>
+								<exclude>**/*Test.java</exclude>
+							</excludes>
+							<!-- Do not set this to 0 in commit as that would block Jacoco code coverage reports due to its agent not getting forked -->
+							<!-- <forkCount>0</forkCount> -->
+						</configuration>
+						<executions>
+							<execution>
+								<id>run-integration-tests</id>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+								<configuration>
+									<includes>
+										<include>**/*IT.java</include>
+									</includes>
+									<excludes>
+										<exclude>**/*Test.java</exclude>
+									</excludes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- To activate below profile, provide a command with -P reporting -->
+		<profile>
+			<id>reporting</id>
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-report-plugin</artifactId>
+						<version>${plugin.surefire.report.version}</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>report-only</report>
+									<report>failsafe-report-only</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>${plugin.javadoc.version}</version>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>javadoc</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+						<version>${plugin.checkstyle.version}</version>
+						<configuration>
+							<configLocation>file:///${project.basedir}/build-tools/code_quality/checkstyle.xml
+							</configLocation>
+							<headerLocation>file:///${project.basedir}/LICENSE.txt</headerLocation>
+						</configuration>
+						<reportSets>
+							<reportSet>
+								<reports>
+									<report>checkstyle</report>
+								</reports>
+							</reportSet>
+						</reportSets>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-project-info-reports-plugin</artifactId>
+						<version>${plugin.project.info.reports.version}</version>
+						<configuration>
+							<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</reporting>
+			<build>
+				<plugins>
+					<!-- For generating code-coverage reports -->
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>${plugin.jacoco.version}</version>
+						<configuration>
+							<skip>${skip.jacoco.code.coverage}</skip>
+						</configuration>
+						<executions>
+							<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+								is passed as VM argument when Maven the Surefire plugin is executed. -->
+							<execution>
+								<id>pre-unit-test</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+								<configuration>
+									<!-- Sets the path to the file which contains the execution data. -->
+									<destFile>${jacoco.ut.execution.data.file}</destFile>
+									<!-- Sets the name of the property containing the settings for JaCoCo 
+										runtime agent. -->
+									<propertyName>surefireArgLine</propertyName>
+								</configuration>
+							</execution>
+							<!-- Ensures that the code coverage report for unit tests is created 
+								after unit tests have been run. -->
+							<execution>
+								<id>post-unit-test</id>
+								<phase>test</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+								<configuration>
+									<!-- Sets the path to the file which contains the execution data. -->
+									<dataFile>${jacoco.ut.execution.data.file}</dataFile>
+									<!-- Sets the output directory for the code coverage report. -->
+									<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+									<title>Spring Data QueryDSL Value Operators - Unit Test code coverage</title>
+								</configuration>
+							</execution>
+							<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+								is passed as VM argument when Maven the Failsafe plugin is executed. -->
+							<execution>
+								<id>pre-integration-test</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+								<configuration>
+									<!-- Sets the path to the file which contains the execution data. -->
+									<destFile>${jacoco.it.execution.data.file}</destFile>
+									<!-- Sets the name of the property containing the settings for JaCoCo 
+										runtime agent. -->
+									<propertyName>failsafeArgLine</propertyName>
+								</configuration>
+							</execution>
+							<!-- Ensures that the code coverage report for integration tests after 
+								integration tests have been run. -->
+							<execution>
+								<id>post-integration-test</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+								<configuration>
+									<!-- Sets the path to the file which contains the execution data. -->
+									<dataFile>${jacoco.it.execution.data.file}</dataFile>
+									<!-- Sets the output directory for the code coverage report. -->
+									<outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+									<title>Spring Data QueryDSL Value Operators - Integration Test code coverage</title>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- START: Building project site, note that by default site-plugin-would 
+						look for external files in src/site folder but to change that we define the 
+						folder elsewhere, and use an ant task to copy those files in compile phase -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${plugin.antrun.version}</version>
+						<executions>
+							<execution>
+								<id>copy</id>
+								<phase>compile</phase>
+								<configuration>
+									<tasks>
+										<copy
+											todir="${project.build.directory}/custom_staging_for_site"
+											overwrite="true">
+											<fileset dir="${project.basedir}/build-tools/site"
+												includes="**" />
+										</copy>
+										<copy file="${project.basedir}/../README.md"
+											tofile="${project.build.directory}/custom_staging_for_site/markdown/README.md"
+											overwrite="true" />
+										<copy file="${project.basedir}/../examples/mongodb-spring-data-querydsl-value-operators-example/README.md"
+											  tofile="${project.build.directory}/custom_staging_for_site/markdown/EXAMPLE_APPLICATION.md"
+											  overwrite="true" />
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<version>${plugin.site.version}</version>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.maven.doxia</groupId>
+								<artifactId>doxia-module-markdown</artifactId>
+								<version>${plugin.doxia.module.markdown.version}</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<relativizeDecorationLinks>false</relativizeDecorationLinks>
+							<!-- Refer the antrun plugin above to ensure that below is in sync 
+								with ant configs -->
+							<siteDirectory>${project.build.directory}/custom_staging_for_site</siteDirectory>
+						</configuration>
+					</plugin>
+					<!-- STOP: Project site -->
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- Profile usually to take care of release (to OSSRH and eventually to 
+			Maven Central) -->
+		<profile>
+			<id>sign-artifacts</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>${plugin.gpg.version}</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
