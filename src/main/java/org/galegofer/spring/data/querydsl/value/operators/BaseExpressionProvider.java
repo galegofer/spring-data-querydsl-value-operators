@@ -227,9 +227,6 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
         }
 
         public BooleanExpression getExpression() {
-
-            Operator defaultOperator = null;
-
             if (!CollectionUtils.isEmpty(this.values)) {
                 if (this.values.size() == 1) {
                     var value = checkIfOriginalRequestValueAvailable(path,
@@ -249,12 +246,16 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
                     return new SingleValueExpressionBuilder(path, value)
                             .getExpression();
                 } else {
-                    for (Object o : checkIfOriginalRequestValuesAvailable(path, values).stream()
+                    Operator defaultOperator = null;
+
+                    for (Object values : checkIfOriginalRequestValuesAvailable(path, values).stream()
                             .filter(Objects::nonNull)
                             .toList()) {
-                        final var value = getStringValue(this.path, o);
-                        final var operatorAndValue = new OperatorAndValue(value, MULTI_VALUE_LOGICAL_OPERATORS,
-                                defaultOperator != null ? defaultOperator
+                        final var value = getStringValue(this.path, values);
+                        final var operatorAndValue = new OperatorAndValue(value,
+                                MULTI_VALUE_LOGICAL_OPERATORS,
+                                defaultOperator != null
+                                        ? defaultOperator
                                         : Operator.OR);
                         if (defaultOperator == null && !Operator.NOT.equals(operatorAndValue.getOperator()))
                             defaultOperator = operatorAndValue.getOperator();
